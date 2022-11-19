@@ -55,4 +55,20 @@ describe(`${PhotoFrameComponent.name}`, () => {
 
     expect(Number(element.textContent)).toBe(1);
   });
+
+  it(`should update aria-label when likes is updated`, () => {
+    fixture.detectChanges();
+    component.likes++;
+    fixture.detectChanges();
+    const element: HTMLElement =
+      fixture.nativeElement.querySelector('.like-counter');
+    expect(element.getAttribute('aria-label')).toBe('1: people liked');
+  });
+
+  it(`should have aria-label with default likes value`, () => {
+    fixture.detectChanges();
+    const element: HTMLElement =
+      fixture.nativeElement.querySelector('.like-counter');
+    expect(element.getAttribute('aria-label')).toBe('0: people liked');
+  });
 });

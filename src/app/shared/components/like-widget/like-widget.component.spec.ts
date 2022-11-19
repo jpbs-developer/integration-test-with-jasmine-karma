@@ -8,7 +8,7 @@ describe(LikeWidgetComponent.name, () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LikeWidgetModule]
+      imports: [LikeWidgetModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LikeWidgetComponent);
@@ -33,9 +33,40 @@ describe(LikeWidgetComponent.name, () => {
 
   it(`#${LikeWidgetComponent.prototype.like.name}
     should trigger (@Output liked) when called`, () => {
-      spyOn(component.liked, 'emit');
+    spyOn(component.liked, 'emit');
+    fixture.detectChanges();
+    component.like();
+    expect(component.liked.emit).toHaveBeenCalled();
+  });
+
+  it(`should display number of likes when clicked`, (done) => {
+    fixture.detectChanges();
+    component.liked.subscribe(() => {
+      component.likes++;
       fixture.detectChanges();
-      component.like();
-      expect(component.liked.emit).toHaveBeenCalled();
+      const counterEl: HTMLElement =
+        fixture.nativeElement.querySelector('.like-counter');
+      expect(Number(counterEl.textContent)).toBe(1);
+      done();
+    });
+    const likeWidgetContainer: HTMLElement =
+      fixture.nativeElement.querySelector('.like-widget-container');
+    likeWidgetContainer.click();
+  });
+
+  it(`should display number of like when ENTER key is pressed`, (done) => {
+    fixture.detectChanges();
+    component.liked.subscribe(() => {
+      component.likes++;
+      fixture.detectChanges();
+      const counterEl: HTMLElement =
+        fixture.nativeElement.querySelector('.like-counter');
+      expect(Number(counterEl.textContent)).toBe(1);
+      done();
+    });
+    const event = new KeyboardEvent('keyup', { key: 'Enter' });
+    const likeWidgetContainer: HTMLElement =
+      fixture.nativeElement.querySelector('.like-widget-container');
+    likeWidgetContainer.dispatchEvent(event);
   });
 });
