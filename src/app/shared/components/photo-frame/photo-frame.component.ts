@@ -17,7 +17,7 @@ export class PhotoFrameComponent implements OnInit, OnDestroy {
   @Output() liked = new EventEmitter<void>();
   @Input() description = '';
   @Input() src = '';
-  @Input() likes = '';
+  @Input() likes = 0;
   private debounceSubject: Subject<void> = new Subject();
   private unsubscribe: Subject<void> = new Subject();
   constructor() {}
