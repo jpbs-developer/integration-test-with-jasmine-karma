@@ -15,7 +15,6 @@ export class PhotoBoardService {
           return { ...photo, description: photo.description.toUpperCase() };
         });
       }),
-      tap((photos) => console.log(photos)),
       delay(2000)
     );
   }
